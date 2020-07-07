@@ -1,0 +1,24 @@
+#!/bin/bash
+
+INFO=`uptime`
+echo $INFO | awk -F'[ ,:\t\n]+' '{
+        msg = " "
+        if ($5 == "day" || $5 == "days") {      # up for a day or more
+            msg = msg $4 $5 " "
+
+            n = $6
+            o = $7
+        } else {
+            n = $4
+            o = $5
+        }
+
+        if (int(o) == 0) {                      # words evaluate to zero
+            msg = msg int(n)" "o
+        } else {                                # hh:mm format
+            msg = msg int(n) "h "
+            msg = msg int(o) "m"
+        }
+
+        print msg
+    }'

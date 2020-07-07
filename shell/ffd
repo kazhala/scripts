@@ -1,0 +1,17 @@
+#!/bin/bash
+
+options=(--type f)
+
+while getopts ":Hh" opt
+do
+  case "$opt" in
+    H)
+      options+=(-H)
+      ;;
+    *) echo "Invalid option: $OPTARG" 1>&2
+      ;;
+  esac
+done
+
+fd "${options[@]}" | fzf --preview "head -50 {}" | xargs nvim
+exit 0

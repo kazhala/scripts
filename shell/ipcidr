@@ -1,0 +1,4 @@
+#!/bin/sh
+public_ip=$(curl -s icanhazip.com)
+echo "${public_ip}/32" | pbcopy
+echo "${public_ip}/32"

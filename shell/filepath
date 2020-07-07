@@ -1,0 +1,7 @@
+#!/bin/bash
+while IFS= read -r -d $'\0' file; do
+  printf '%s' "$PWD"
+  [[ "$PWD" != "/" ]] && printf /
+  printf '%s' "${file}"
+  echo
+done < <(fd -d 1 --print0)

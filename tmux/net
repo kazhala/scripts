@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+
+import datetime
+import urllib.request
+
+
+class bcolors:
+    OKGREEN = '#[fg=#98c379, bg=default]'
+    WARNING = '#[fg=#d08770, bg=default]'
+    FAIL = '#[fg=#e06c75, bg=default]'
+
+
+def connected(host='http://google.com'):
+    try:
+        start = datetime.datetime.now()
+        urllib.request.urlopen(host, timeout=3)
+        end = datetime.datetime.now()
+        diff = (end - start).total_seconds()
+        return diff
+    except:
+        return None
+
+
+connection = connected()
+if not connection:
+    print(bcolors.FAIL + ' ')
+elif connection < 0.5:
+    print(bcolors.OKGREEN + ' ')
+elif connection < 1:
+    print(bcolors.WARNING + ' ')
+else:
+    print(bcolors.FAIL + ' ')

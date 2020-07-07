@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -e
+
+osascript - <<EOF
+set targetFolder to POSIX file "/Users/kevinzhuang"
+
+tell application "Finder"
+    set target of (make new Finder window) to targetFolder
+end tell
+EOF

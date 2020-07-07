@@ -1,0 +1,20 @@
+#!/usr/bin/env python3
+"""vimwiki diary tmeplate
+"""
+
+import datetime
+import sys
+import os
+
+template = """# {date}
+
+## Daily checklist
+
+* [ ] Algorithem
+
+## Notes
+
+## Misc"""
+
+date = datetime.date.today()
+print(template.format(date=date if len(sys.argv) < 2 else os.path.splitext(os.path.basename(sys.argv[1]))[0]))

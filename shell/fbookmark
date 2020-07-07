@@ -1,0 +1,73 @@
+#!/bin/bash
+
+function mark() {
+  [[ -z "${FZF_MARKS_LOCATION}" ]] && FZF_MARKS_LOCATION="${XDG_CONFIG_HOME:-$HOME/.config}/fzfbookmark"
+
+  if [[ "${PWD}" == "${HOME}" ]]; then
+    full_name="HOME: ${HOME}"
+  else
+    if [[ -n "$*" ]]; then
+      mark_name="$*"
+    else
+      mark_name=$(echo "${PWD}" | awk -F '/' '{print $NF}')
+    fi
+    full_name="${mark_name}: ${PWD}"
+  fi
+
+  [[ ! -f "${FZF_MARKS_LOCATION}/marks" ]] && mkdir -p "${FZF_MARKS_LOCATION}" && touch "${FZF_MARKS_LOCATION}/marks"
+
+  # check if the mark already exists
+  if grep -qx "${full_name}" "${FZF_MARKS_LOCATION}/marks"; then
+    echo "*** Mark already exists ***"
+  else
+    echo "*** Mark has been added ***"
+    echo "${full_name}" >> "${FZF_MARKS_LOCATION}/marks"
+  fi
+
+  esc=$(printf '\033')
+  sed "s|^\\(.*\\): \\(.*\\)$|${esc}[m\\1: ${esc}[36m\\2|" <(echo "${full_name}")
+}
+
+function fm() {
+  local esc lines key target dryrun query=""
+
+  while getopts ":dq:" opt; do
+    case "$opt" in
+      d)
+        dryrun='true'
+        ;;
+      q)
+        query="$OPTARG"
+        ;;
+      *)
+        echo "Invalid option: $OPTARG"
+        return
+        ;;
+    esac
+  done
+
+  [[ -z "${FZF_MARKS_LOCATION}" ]] && FZF_MARKS_LOCATION="${XDG_CONFIG_HOME:-$HOME/.config}/fzfbookmark"
+  [[ ! -f "${FZF_MARKS_LOCATION}/marks" ]] && echo 'Mark file not found, add FZF_MARKS_LOCATION to rc file' && exit 1
+  esc=$(printf '\033')
+
+  lines=$(sed "s|^\\(.*\\): \\(.*\\)$|${esc}[32m\\1: ${esc}[36m\\2|" "${FZF_MARKS_LOCATION}"/marks | \
+    fzf --tac --exit-0 --multi --expect=ctrl-d --ansi --query="${query}" --preview="echo {} | awk '{print \$2}' | xargs -I __ tree -C -L 1 __")
+
+  key=$(echo "${lines}" | head -1)
+  target=$(echo "${lines}" | sed 1d)
+
+  if [[ -n "${key}" && "${key}" == 'ctrl-d' ]]; then
+    while IFS='' read -r line; do
+      sed -ie "s|${line}||g" "${FZF_MARKS_LOCATION}/marks"
+      sed -i '' '/^[[:space:]]*$/d' "${FZF_MARKS_LOCATION}/marks"
+    done <<< "${target}"
+  else
+    cd_to=$(echo "${target}" | head -1 | \
+      awk '{print $2}')
+    if [[ -n "${dryrun}" ]]; then
+      echo "${cd_to}"
+    else
+      cd "${cd_to}" || echo "Invalid filepath"
+    fi
+  fi
+}

@@ -1,0 +1,64 @@
+#!/bin/bash
+
+set -e
+
+git_arg=(branch)
+
+while getopts ":aA" opt; do
+  case "$opt" in
+    a)
+      git_arg+=(-a)
+      break
+      ;;
+    A)
+      git_arg+=(-a)
+      new_branch="true"
+      ;;
+    *)
+      echo "Invalid option $OPTARG" 1>&2
+      exit 1
+      ;;
+  esac
+done
+
+if git rev-parse --is-inside-git-dir &> /dev/null; then
+    selected_branch=$(git "${git_arg[@]}" \
+      | awk '{
+            if ($0 ~ /\*.*\(HEAD.*/) {
+              gsub(/\* /, "", $0)
+              print "\033[32m" $0 "\033[0m"
+            } else if (match($1, "\\*") != 0) {
+              print "\033[32m" $2 "\033[0m"
+            } else if ($0 ~ /^[ \t]+remotes\/.*/) {
+              gsub(/[ \t]+/, "", $0)
+              print "\033[31m" $0 "\033[0m"
+            } else {
+              gsub(/^[ \t]+/, "", $0)
+              print $0
+            }
+        }' \
+      | fzf --ansi --preview="echo {} \
+        | awk '{
+            if (\$0 ~ /.*HEAD.*/) {
+                print \"HEAD\"
+              } else {
+                print \$0
+              }
+          }' \
+        | xargs -I __ git log --oneline --graph --color=always --decorate=short __"
+    )
+    [[ -z "${selected_branch}" ]] && exit 1
+    if [[ -n "${new_branch}" ]]; then
+      awk '{
+        if ($0 ~ /remotes\/origin.*/) {
+          gsub(/remotes\/origin\//, "", $0)
+        } 
+        print $0
+      }' <(echo "${selected_branch}") \
+        | xargs -I __ git checkout __
+    else
+      git checkout "${selected_branch}"
+    fi
+else
+  echo "Not in git dir"
+fi

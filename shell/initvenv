@@ -1,0 +1,13 @@
+#!/bin/sh
+
+venv_name="${1:-venv}"
+
+python3 -m venv "${venv_name}"
+
+[ ! -d ".vim" ] && mkdir .vim
+
+cat << EOF > .vim/coc-settings.json
+{
+  "python.pythonPath": "python"
+}
+EOF
