@@ -8,13 +8,11 @@ import os
 
 template = """# {date}
 
-## Daily checklist
-
-* [ ] Algorithem
-
 ## Notes
 
-## Misc"""
+## Checklist
+
+* [ ] aws"""
 
 date = datetime.date.today()
 print(template.format(date=date if len(sys.argv) < 2 else os.path.splitext(os.path.basename(sys.argv[1]))[0]))
