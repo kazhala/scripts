@@ -46,7 +46,7 @@ function fm() {
     esac
   done
 
-  [[ -z "${FBOOKMARK_LOCATION}" ]] && FBOOKMARK_LOCATION="${XDG_CONFIG_HOME:-$HOME/.config}/fzfbookmark"
+  [[ -z "${FBOOKMARK_LOCATION}" ]] && FBOOKMARK_LOCATION="${XDG_CONFIG_HOME:-$HOME/.config}/fbookmark"
   [[ ! -f "${FBOOKMARK_LOCATION}/marks" ]] && echo 'Mark file not found, add FBOOKMARK_LOCATION to rc file' && return
   esc=$(printf '\033')
 
