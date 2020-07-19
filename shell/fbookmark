@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function mark() {
-  [[ -z "${FZF_MARKS_LOCATION}" ]] && FZF_MARKS_LOCATION="${XDG_CONFIG_HOME:-$HOME/.config}/fzfbookmark"
+  [[ -z "${FBOOKMARK_LOCATION}" ]] && FBOOKMARK_LOCATION="${XDG_CONFIG_HOME:-$HOME/.config}/fbookmark"
 
   if [[ "${PWD}" == "${HOME}" ]]; then
     full_name="HOME: ${HOME}"
@@ -14,14 +14,14 @@ function mark() {
     full_name="${mark_name}: ${PWD}"
   fi
 
-  [[ ! -f "${FZF_MARKS_LOCATION}/marks" ]] && mkdir -p "${FZF_MARKS_LOCATION}" && touch "${FZF_MARKS_LOCATION}/marks"
+  [[ ! -f "${FBOOKMARK_LOCATION}/marks" ]] && mkdir -p "${FBOOKMARK_LOCATION}" && touch "${FBOOKMARK_LOCATION}/marks"
 
   # check if the mark already exists
-  if grep -qx "${full_name}" "${FZF_MARKS_LOCATION}/marks"; then
+  if grep -qx "${full_name}" "${FBOOKMARK_LOCATION}/marks"; then
     echo "*** Mark already exists ***"
   else
     echo "*** Mark has been added ***"
-    echo "${full_name}" >> "${FZF_MARKS_LOCATION}/marks"
+    echo "${full_name}" >> "${FBOOKMARK_LOCATION}/marks"
   fi
 
   esc=$(printf '\033')
@@ -46,11 +46,11 @@ function fm() {
     esac
   done
 
-  [[ -z "${FZF_MARKS_LOCATION}" ]] && FZF_MARKS_LOCATION="${XDG_CONFIG_HOME:-$HOME/.config}/fzfbookmark"
-  [[ ! -f "${FZF_MARKS_LOCATION}/marks" ]] && echo 'Mark file not found, add FZF_MARKS_LOCATION to rc file' && exit 1
+  [[ -z "${FBOOKMARK_LOCATION}" ]] && FBOOKMARK_LOCATION="${XDG_CONFIG_HOME:-$HOME/.config}/fzfbookmark"
+  [[ ! -f "${FBOOKMARK_LOCATION}/marks" ]] && echo 'Mark file not found, add FBOOKMARK_LOCATION to rc file' && return
   esc=$(printf '\033')
 
-  lines=$(sed "s|^\\(.*\\): \\(.*\\)$|${esc}[32m\\1: ${esc}[36m\\2|" "${FZF_MARKS_LOCATION}"/marks | \
+  lines=$(sed "s|^\\(.*\\): \\(.*\\)$|${esc}[32m\\1: ${esc}[36m\\2|" "${FBOOKMARK_LOCATION}"/marks | \
     fzf --tac --exit-0 --multi --expect=ctrl-d --ansi --query="${query}" --preview="echo {} | awk '{print \$2}' | xargs -I __ tree -C -L 1 __")
 
   key=$(echo "${lines}" | head -1)
@@ -58,8 +58,8 @@ function fm() {
 
   if [[ -n "${key}" && "${key}" == 'ctrl-d' ]]; then
     while IFS='' read -r line; do
-      sed -ie "s|${line}||g" "${FZF_MARKS_LOCATION}/marks"
-      sed -i '' '/^[[:space:]]*$/d' "${FZF_MARKS_LOCATION}/marks"
+      sed -ie "s|${line}||g" "${FBOOKMARK_LOCATION}/marks"
+      sed -i '' '/^[[:space:]]*$/d' "${FBOOKMARK_LOCATION}/marks"
     done <<< "${target}"
   else
     cd_to=$(echo "${target}" | head -1 | \
