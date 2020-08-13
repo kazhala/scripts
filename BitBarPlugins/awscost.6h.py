@@ -1,7 +1,8 @@
 #!/usr/local/bin/python3
 
-import boto3
 from datetime import datetime
+
+import boto3
 
 alarm = boto3.client("cloudwatch", region_name="us-east-1")
 client = boto3.client("ce", region_name="us-east-1")
@@ -15,7 +16,7 @@ if alarm_state == "OK":
     print("---")
     print("Alarm state OK.")
 elif alarm_state == "INSUFFICIENT_DATA":
-    print("⸮")
+    print(" | size=18 font='DroidSansMono Nerd Font'")
     print("---")
     print("Alarm is in an UNKNOWN state?")
 else:
@@ -37,7 +38,11 @@ else:
     )
 
     total_dict = response["ResultsByTime"][0]["Total"].get("AmortizedCost")
-    amount = round(float(total_dict["Amount"]), 2) if total_dict.get("Amount") else 0.00
+    amount = (
+        round(float(total_dict.get("Amount", 0.00)), 2)
+        if total_dict.get("Amount", 0.00) > 0
+        else 0.00
+    )
 
     print("$%s %s" % (amount, total_dict.get("Unit")))
     print("---")
