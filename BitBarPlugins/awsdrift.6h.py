@@ -3,7 +3,7 @@
 import boto3
 from botocore.exceptions import ClientError
 
-regions = ["ap-southeast-2", "us-east-1"]
+regions = ["ap-southeast-2"]
 alarms = []
 in_alarm = False
 

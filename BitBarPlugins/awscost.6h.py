@@ -2,13 +2,17 @@
 
 from datetime import datetime
 
-import boto3
+from boto3.session import Session
 
-alarm = boto3.client("cloudwatch", region_name="us-east-1")
-client = boto3.client("ce", region_name="us-east-1")
+session = Session(region_name="us-east-1", profile_name="master")
+
+alarm = session.client("cloudwatch")
+client = session.client("ce")
 
 
-response = alarm.describe_alarms(AlarmNames=["BillingAlarm"],)
+response = alarm.describe_alarms(
+    AlarmNames=["BillingAlarm"],
+)
 alarm_state = response["MetricAlarms"][0].get("StateValue")
 
 if alarm_state == "OK":
@@ -34,7 +38,9 @@ else:
     response = client.get_cost_and_usage(
         TimePeriod={"Start": start, "End": end},
         Granularity="MONTHLY",
-        Metrics=["AmortizedCost",],
+        Metrics=[
+            "AmortizedCost",
+        ],
     )
 
     total_dict = response["ResultsByTime"][0]["Total"].get("AmortizedCost")
