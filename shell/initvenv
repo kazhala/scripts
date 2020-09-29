@@ -8,6 +8,6 @@ python3 -m venv "${venv_name}"
 
 cat << EOF > .vim/coc-settings.json
 {
-  "python.pythonPath": "python"
+  "python.pythonPath": "$PWD/${venv_name}/bin/python"
 }
 EOF
