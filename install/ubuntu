@@ -1,8 +1,8 @@
-#/bin/bash
-sudo apt update
+#/bin/zsh
+sudo apt -y update
 
 # install apt-get essentials
-sudo apt install build-essential
+sudo apt -y install build-essential
 sudo apt-get -y install git
 sudo apt-get -y install nodejs
 sudo apt-get -y install npm
@@ -13,16 +13,18 @@ sudo apt-get -y install zsh
 sudo apt-get -y install fd-find
 sudo apt-get -y install fzf
 sudo apt-get -y install vifm
+sudo apt-get -y install tmux
 
 # configure zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
-zsh
+source ~/.zinit/bin/zinit.zsh
 zinit light kazhala/dotbare
 dotbare finit -u https://github.com/kazhala/dotfiles.git
-dotbare checkout ubuntu
+source ~/.zshrc
+
+# git packages
 git clone https://github.com/kazhala/scripts.git $HOME/Programming/scripts
-exit
-zsh
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 # rust
 curl --proto '=https' --tlsv1.2 -o rust_install.sh -sSf https://sh.rustup.rs
@@ -35,13 +37,12 @@ cargo install git-delta
 
 # vim
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-vim -c 'PlugInstall|q'
-vim -c 'CocInstall -sync coc-css coc-eslint coc-git coc-html coc-json coc-markdownlint coc-pairs coc-prettier coc-pyright coc-snippets coc-tsserver coc-yaml|q'
+nvim -c 'PlugInstall|q|q'
+nvim -c 'CocInstall -sync coc-css coc-eslint coc-git coc-html coc-json coc-markdownlint coc-pairs coc-prettier coc-pyright coc-snippets coc-tsserver coc-yaml|q'
 
 # python
 sudo apt install -y python3-pip
 pip3 install -r $HOME/.config/pip/requirements.txt
-
 
 # set zsh as default
 sudo passwd ubuntu
