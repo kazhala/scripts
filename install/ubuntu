@@ -13,7 +13,6 @@ sudo apt-get -y install zsh
 sudo apt-get -y install fd-find
 sudo apt-get -y install fzf
 sudo apt-get -y install vifm
-sudo apt-get -y install tmux
 
 # configure zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
@@ -23,7 +22,7 @@ dotbare finit -u https://github.com/kazhala/dotfiles.git
 source ~/.zshrc
 
 # git packages
-git clone https://github.com/kazhala/scripts.git $HOME/Programming/scripts
+git clone https://github.com/kazhala/scripts.git $HOME/Programming/Scripts
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 # rust
@@ -38,7 +37,7 @@ cargo install git-delta
 # vim
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 nvim -c 'PlugInstall|q|q'
-nvim -c 'CocInstall -sync coc-css coc-eslint coc-git coc-html coc-json coc-markdownlint coc-pairs coc-prettier coc-pyright coc-snippets coc-tsserver coc-yaml|q'
+nvim -c 'CocInstall -sync coc-css coc-eslint coc-git coc-html coc-json coc-markdownlint coc-pairs coc-prettier coc-pyright coc-snippets coc-tsserver coc-yaml|q|q'
 
 # python
 sudo apt install -y python3-pip
