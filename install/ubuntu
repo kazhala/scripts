@@ -20,6 +20,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/i
 source ~/.zinit/bin/zinit.zsh
 zinit light kazhala/dotbare
 dotbare finit -u https://github.com/kazhala/dotfiles.git
+dotbare checkout ubuntu
 source ~/.zshrc
 mkdir -p $XDG_CACHE_HOME/.cache/zsh
 
