@@ -21,6 +21,7 @@ source ~/.zinit/bin/zinit.zsh
 zinit light kazhala/dotbare
 dotbare finit -u https://github.com/kazhala/dotfiles.git
 source ~/.zshrc
+mkdir -p $XDG_CACHE_HOME/.cache/zsh
 
 # git packages
 git clone https://github.com/kazhala/scripts.git $HOME/Programming/scripts
