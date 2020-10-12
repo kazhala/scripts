@@ -13,6 +13,7 @@ sudo apt-get -y install zsh
 sudo apt-get -y install fd-find
 sudo apt-get -y install fzf
 sudo apt-get -y install vifm
+sudo apt-get -y install tree
 
 # configure zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
@@ -22,7 +23,7 @@ dotbare finit -u https://github.com/kazhala/dotfiles.git
 source ~/.zshrc
 
 # git packages
-git clone https://github.com/kazhala/scripts.git $HOME/Programming/Scripts
+git clone https://github.com/kazhala/scripts.git $HOME/Programming/scripts
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 # rust
