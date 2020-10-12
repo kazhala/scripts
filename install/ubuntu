@@ -48,6 +48,8 @@ nvim -c 'CocInstall -sync coc-css coc-eslint coc-git coc-html coc-json coc-markd
 # python
 sudo apt install -y python3-pip
 pip3 install -r $HOME/.config/pip/requirements.txt
+sudo pip3 install awscli
+sudo pip3 install fzfaws
 
 # set zsh as default
 sudo passwd ubuntu
