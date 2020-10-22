@@ -16,6 +16,7 @@ sudo apt-get -y install fd-find
 sudo apt-get -y install fzf
 sudo apt-get -y install vifm
 sudo apt-get -y install tree
+sudo apt-get -y install ripgrep
 sudo apt -y autoremove
 
 # configure zsh
