@@ -52,6 +52,11 @@ pip3 install -r $HOME/.config/pip/requirements.txt
 sudo pip3 install awscli
 sudo pip3 install fzfaws
 
+# enable password ssh
+sed -i "s/^PermitRootLogin prohibit-password/PermitRootLogin yes/g" /etc/ssh/sshd_config
+sed -i 's/^PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+sudo service ssh restart
+
 # set zsh as default
 sudo passwd ubuntu
 chsh -s $(which zsh)
