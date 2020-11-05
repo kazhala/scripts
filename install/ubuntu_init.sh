@@ -20,7 +20,7 @@ sudo apt-get -y install ripgrep
 sudo apt -y autoremove
 
 # configure zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/kazhala/scripts/master/install/zinit_installer.sh)"
 source ~/.zinit/bin/zinit.zsh
 zinit light kazhala/dotbare
 dotbare finit -u https://github.com/kazhala/dotfiles.git
@@ -40,6 +40,7 @@ rm rust_install.sh
 source $XDG_DATA_HOME/cargo/env
 cargo install lsd
 cargo install git-delta
+cargo install tealdeer
 
 # vim
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
