@@ -40,7 +40,6 @@ rm rust_install.sh
 source $XDG_DATA_HOME/cargo/env
 cargo install lsd
 cargo install git-delta
-cargo install tealdeer
 
 # vim
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -55,6 +54,6 @@ sudo pip3 install awscli
 sudo pip3 install fzfaws
 
 # enable password ssh
-sed -i "s/^PermitRootLogin prohibit-password/PermitRootLogin yes/g" /etc/ssh/sshd_config
-sed -i 's/^PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+sudo sed -i "s/^PermitRootLogin prohibit-password/PermitRootLogin yes/g" /etc/ssh/sshd_config
+sudo sed -i 's/^PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
 sudo service ssh restart
