@@ -59,7 +59,7 @@ function fm() {
   if [[ -n "${key}" && "${key}" == 'ctrl-d' ]]; then
     while IFS='' read -r line; do
       sed -ie "s|${line}||g" "${FBOOKMARK_LOCATION}/marks"
-      sed -i '' '/^[[:space:]]*$/d' "${FBOOKMARK_LOCATION}/marks"
+      sed -i '/^[[:space:]]*$/d' "${FBOOKMARK_LOCATION}/marks"
     done <<< "${target}"
   else
     cd_to=$(echo "${target}" | head -1 | \
