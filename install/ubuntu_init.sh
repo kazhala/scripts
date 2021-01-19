@@ -13,7 +13,9 @@ sudo apt -y update
 sudo apt -y install build-essential
 sudo apt-get -y install git
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-sudo apt-get install -y nodejs
+sudo apt-get -y install pkg-config
+sudo apt-get -y install libssl-dev
+sudo apt-get -y install nodejs
 sudo apt-get -y install npm
 sudo apt-get -y install neovim
 sudo apt-get -y install tmux
@@ -25,6 +27,7 @@ sudo apt-get -y install fzf
 sudo apt-get -y install vifm
 sudo apt-get -y install tree
 sudo apt-get -y install ripgrep
+sudo apt-get -y install shellcheck
 sudo apt -y autoremove
 
 # git packages
@@ -49,6 +52,7 @@ rm ~/rust_install.sh
 source $XDG_DATA_HOME/cargo/env
 cargo install lsd
 cargo install git-delta
+cargo install tealdeer
 
 # vim
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
