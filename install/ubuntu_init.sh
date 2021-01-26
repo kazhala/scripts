@@ -31,7 +31,6 @@ sudo apt-get -y install shellcheck
 sudo apt -y autoremove
 
 # git packages
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/kazhala/scripts/master/install/zinit_installer.sh)"
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 git clone https://github.com/kazhala/dotbare.git ~/.dotbare
 git clone https://github.com/kazhala/scripts.git ~/Programming/scripts
@@ -57,8 +56,6 @@ cargo install tealdeer
 # vim
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 nvim -c 'PlugInstall|q|q'
-nvim -c 'CocInstall -sync coc-css coc-eslint coc-html coc-json coc-markdownlint coc-pairs coc-prettier coc-pyright coc-snippets coc-tsserver coc-yaml|q|q'
-nvim -c 'CocInstall -sync coc-git|q|q'
 
 # python
 sudo apt install -y python3-pip
