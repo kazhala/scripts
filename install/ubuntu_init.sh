@@ -11,23 +11,23 @@ mkdir -p ~/Programming/work
 # install general
 sudo apt -y update
 sudo apt -y install build-essential
-sudo apt-get -y install git
+sudo apt -y install git
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-sudo apt-get -y install pkg-config
-sudo apt-get -y install libssl-dev
-sudo apt-get -y install nodejs
-sudo apt-get -y install npm
-sudo apt-get -y install neovim
-sudo apt-get -y install tmux
-sudo apt-get -y install python3
-sudo apt-get -y install python3-venv
-sudo apt-get -y install zsh
-sudo apt-get -y install fd-find
-sudo apt-get -y install fzf
-sudo apt-get -y install vifm
-sudo apt-get -y install tree
-sudo apt-get -y install ripgrep
-sudo apt-get -y install shellcheck
+sudo apt -y install pkg-config
+sudo apt -y install libssl-dev
+sudo apt -y install nodejs
+sudo apt -y install npm
+sudo apt -y install neovim
+sudo apt -y install tmux
+sudo apt -y install python3
+sudo apt -y install python3-venv
+sudo apt -y install zsh
+sudo apt -y install fd-find
+sudo apt -y install fzf
+sudo apt -y install vifm
+sudo apt -y install tree
+sudo apt -y install ripgrep
+sudo apt -y install shellcheck
 sudo apt -y autoremove
 
 # git packages
