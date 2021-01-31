@@ -40,7 +40,6 @@ git clone https://github.com/kazhala/AWSLambda.git ~/Programming/aws/lambda
 # dotbare
 source ~/.dotbare/dotbare.plugin.bash
 dotbare finit -u https://github.com/kazhala/dotfiles.git
-dotbare checkout ubuntu
 rm -rf ~/.dotbare
 
 # rust
