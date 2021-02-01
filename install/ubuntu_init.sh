@@ -33,12 +33,11 @@ sudo apt -y autoremove
 
 # git packages
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-git clone https://github.com/kazhala/dotbare.git ~/.dotbare
-git clone https://github.com/kazhala/scripts.git ~/Programming/scripts
-git clone https://github.com/kazhala/AWSCloudFormationStacks ~/Programming/aws/cloudformation
-git clone https://github.com/kazhala/AWSLambda.git ~/Programming/aws/lambda
+git clone https://github.com/kazhala/scripts.git ~/Programming/personal/scripts
+git clone https://github.com/kazhala/AWSCloudFormationStacks ~/Programming/personal/cloudformation
 
 # dotbare
+git clone https://github.com/kazhala/dotbare.git ~/.dotbare
 source ~/.dotbare/dotbare.plugin.bash
 dotbare finit -u https://github.com/kazhala/dotfiles.git
 rm -rf ~/.dotbare
@@ -58,8 +57,8 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 nvim -c 'PlugInstall|q|q'
 
 # python
-sudo apt install -y python3-pip
-sudo apt-get -y install python-setuptools
+sudo apt -y install python3-pip
+sudo apt -y install python-setuptools
 pip3 install -r $HOME/.config/pip/requirements.txt
 sudo pip3 install awscli
 sudo pip3 install fzfaws
