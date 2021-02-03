@@ -8,6 +8,7 @@ export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
 export RUSTUP_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/rustup"
 export OS_DISTRO="UBUNTU"
 mkdir -p ~/Programming/work
+mkdir -p ~/Programming/personal
 
 # install general
 sudo apt -y update
@@ -33,7 +34,7 @@ sudo apt -y autoremove
 
 # git packages
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-git clone https://github.com/kazhala/scripts.git ~/Programming/personal/scripts
+git clone https://github.com/kazhala/scripts.git ~/Programming/scripts
 git clone https://github.com/kazhala/AWSCloudFormationStacks ~/Programming/personal/cloudformation
 
 # dotbare
