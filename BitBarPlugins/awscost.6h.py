@@ -46,7 +46,7 @@ else:
     total_dict = response["ResultsByTime"][0]["Total"].get("AmortizedCost")
     amount = (
         round(float(total_dict.get("Amount", 0.00)), 2)
-        if total_dict.get("Amount", 0.00) > 0
+        if float(total_dict.get("Amount", 0.00)) > 0
         else 0.00
     )
 
