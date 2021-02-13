@@ -4,52 +4,28 @@ from datetime import datetime
 
 from boto3.session import Session
 
-session = Session(region_name="us-east-1", profile_name="master")
+session = Session(profile_name="master")
+budget_client = session.client("budgets")
 
-alarm = session.client("cloudwatch")
-client = session.client("ce")
-
-
-response = alarm.describe_alarms(
-    AlarmNames=["BillingAlarm"],
+response = budget_client.describe_budget(
+    AccountId=session.client("sts").get_caller_identity()["Account"],
+    BudgetName="TOTAL_COST",
 )
-alarm_state = response["MetricAlarms"][0].get("StateValue")
+actual_spend = response["Budget"]["CalculatedSpend"]["ActualSpend"]
+forecast_spend = response["Budget"]["CalculatedSpend"]["ForecastedSpend"]
 
-if alarm_state == "OK":
-    print(" | size=18 font='DroidSansMono Nerd Font'")
-    print("---")
-    print("Alarm state OK.")
-elif alarm_state == "INSUFFICIENT_DATA":
-    print(" | size=18 font='DroidSansMono Nerd Font'")
-    print("---")
-    print("Alarm is in an UNKNOWN state?")
-else:
-    month = datetime.now().month
-    year = datetime.now().year
-    next_month = month + 1 if month != 12 else 1
-
-    # format month
-    month = str(month) if len(str(month)) != 1 else "0" + str(month)
-    next_month = str(next_month) if len(str(next_month)) != 1 else "0" + str(next_month)
-
-    start = "%s-%s-01" % (year, month)
-    end = "%s-%s-01" % (year, next_month)
-
-    response = client.get_cost_and_usage(
-        TimePeriod={"Start": start, "End": end},
-        Granularity="MONTHLY",
-        Metrics=[
-            "AmortizedCost",
-        ],
+print(
+    "$%s %s"
+    % (
+        round(float(actual_spend["Amount"]), 2),
+        actual_spend["Unit"],
     )
-
-    total_dict = response["ResultsByTime"][0]["Total"].get("AmortizedCost")
-    amount = (
-        round(float(total_dict.get("Amount", 0.00)), 2)
-        if float(total_dict.get("Amount", 0.00)) > 0
-        else 0.00
+)
+print("---")
+print(
+    "$%s %s"
+    % (
+        round(float(forecast_spend["Amount"]), 2),
+        forecast_spend["Unit"],
     )
-
-    print("$%s %s" % (amount, total_dict.get("Unit")))
-    print("---")
-    print("Caution! Monitor your aws spending!")
+)
