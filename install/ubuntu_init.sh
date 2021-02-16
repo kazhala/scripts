@@ -30,6 +30,7 @@ sudo apt -y install vifm
 sudo apt -y install tree
 sudo apt -y install ripgrep
 sudo apt -y install shellcheck
+sudo apt install -y httpie
 sudo apt -y autoremove
 
 # git packages
@@ -75,7 +76,13 @@ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubun
 sudo apt -y install docker-ce
 sudo apt -y install docker-ce-cli
 sudo apt -y install containerd.io
+
+# aws sam
 wget https://github.com/aws/aws-sam-cli/releases/latest/download/aws-sam-cli-linux-x86_64.zip
+unzip aws-sam-cli-linux-x86_64.zip -d sam-installation
+sudo ./sam-installation/install
+rm aws-sam-cli-linux-x86_64.zip
+rm -r sam-installation
 
 # enable password ssh
 sudo sed -i "s/^PermitRootLogin prohibit-password/PermitRootLogin yes/g" /etc/ssh/sshd_config
