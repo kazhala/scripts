@@ -64,6 +64,18 @@ pip3 install -r $HOME/.config/pip/requirements.txt
 sudo pip3 install awscli
 sudo pip3 install fzfaws
 
+# docker
+sudo apt -y install apt-transport-https 
+sudo apt -y install ca-certificates
+sudo apt -y install curl
+sudo apt -y install gnupg-agent
+sudo apt -y install software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt -y install docker-ce
+sudo apt -y install docker-ce-cli
+sudo apt -y install containerd.io
+
 # enable password ssh
 sudo sed -i "s/^PermitRootLogin prohibit-password/PermitRootLogin yes/g" /etc/ssh/sshd_config
 sudo sed -i 's/^PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
