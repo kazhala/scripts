@@ -64,6 +64,7 @@ sudo apt -y install python-setuptools
 pip3 install -r $HOME/.config/pip/requirements.txt
 sudo pip3 install awscli
 sudo pip3 install fzfaws
+sudo pip3 install isort
 
 # docker
 sudo apt -y install apt-transport-https 
