@@ -9,6 +9,7 @@ export RUSTUP_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/rustup"
 export OS_DISTRO="UBUNTU"
 mkdir -p ~/Programming/work
 mkdir -p ~/Programming/personal
+mkdir -P "$XDG_CACHE_HOME"/zsh
 
 # install general
 sudo apt -y update
@@ -77,6 +78,8 @@ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubun
 sudo apt -y install docker-ce
 sudo apt -y install docker-ce-cli
 sudo apt -y install containerd.io
+sudo groupadd docker
+sudo usermod -aG docker ubuntu
 
 # aws sam
 wget https://github.com/aws/aws-sam-cli/releases/latest/download/aws-sam-cli-linux-x86_64.zip
