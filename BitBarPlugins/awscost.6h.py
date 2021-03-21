@@ -1,7 +1,4 @@
 #!/usr/local/bin/python3
-
-from datetime import datetime
-
 from boto3.session import Session
 
 session = Session(profile_name="master")
