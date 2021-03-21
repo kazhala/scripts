@@ -30,13 +30,13 @@ try:
                     {"Name": alarm.get("AlarmName"), "State": alarm.get("StateValue")}
                 )
     if in_alarm:
-        print("⚠")
+        print(" | font='DroidSansMonoNerdFontComplete-'")
     else:
-        print("☁")
+        print(" | font='DroidSansMonoNerdFontComplete-'")
     print("---")
     for alarm in alarms:
         print("%s  %s" % (alarm["Name"], alarm["State"]))
 except ClientError as e:
-    print("☠")
+    print(" | font='DroidSansMonoNerdFontComplete-'")
     print("---")
     print(e)
