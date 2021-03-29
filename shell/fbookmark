@@ -29,7 +29,7 @@ function mark() {
 }
 
 function fm() {
-  local esc lines key target dryrun query=""
+  local SED_ARG cd_to esc lines key target dryrun query=""
 
   while getopts ":dq:" opt; do
     case "$opt" in
@@ -57,9 +57,13 @@ function fm() {
   target=$(echo "${lines}" | sed 1d)
 
   if [[ -n "${key}" && "${key}" == 'ctrl-d' ]]; then
+    SED_ARG=("-i")
+    if [[ "$OSTYPE" =~ "darwin" ]]; then
+      SED_ARG=("-i" "")
+    fi
     while IFS='' read -r line; do
-      sed -ie "s|${line}||g" "${FBOOKMARK_LOCATION}/marks"
-      sed -i '/^[[:space:]]*$/d' "${FBOOKMARK_LOCATION}/marks"
+      sed "${SED_ARG[@]}" -e "s|^${line}$||g" "${FBOOKMARK_LOCATION}/marks"
+      sed "${SED_ARG[@]}" '/^[[:space:]]*$/d' "${FBOOKMARK_LOCATION}/marks"
     done <<< "${target}"
   else
     cd_to=$(echo "${target}" | head -1 | \
