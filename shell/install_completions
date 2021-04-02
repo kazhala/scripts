@@ -1,0 +1,18 @@
+#!/bin/zsh
+
+completion_dir="${0:a:h}/../completions"
+completion_files=("_poetry")
+
+for completion_file in "${completion_files[@]}"; do
+  case "${completion_file}" in
+    _poetry)
+      if command -v poetry &>/dev/null && [[ ! -f "${completion_dir}/${completion_file}" ]]; then
+        poetry completions zsh > "${completion_dir}/${completion_file}"
+      fi
+      ;;
+  esac
+done
+
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+zinit creinstall "${completion_dir}"
