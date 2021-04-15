@@ -1,8 +1,8 @@
 #!/bin/bash
 
 function _ffd() {
-  local options filter_dir result
-  options=()
+  local options filter_dir result preview_cmd
+  preview_cmd="head -200 {}"
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -15,8 +15,8 @@ function _ffd() {
         shift
         ;;
       -d|--dir)
-        options+=(--type d)
         filter_dir="true"
+        preview_cmd="tree -C {}"
         shift
         ;;
       -h|--help)
@@ -32,10 +32,19 @@ Optional arguments:
   -H, --hidden\t\tinclude hidden files/directories."
         exit 0
         ;;
+      *)
+        echo "Invalid argument: ${1}" >&2
+        exit 1
     esac
   done
 
-  result=$(fd "${options[@]}" | fzf --preview "head -200 {}" --exit-0)
+  if [[ -z "${filter_dir}" ]]; then
+    options+=(--type f)
+  else
+    options+=(--type d)
+  fi
+
+  result=$(fd "${options[@]}" | fzf --preview "${preview_cmd}" --exit-0)
   [[ -z "${result}" ]] && exit 1
 
   if [[ -z "${filter_dir}" ]]; then
