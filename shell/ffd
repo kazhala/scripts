@@ -1,18 +1,48 @@
 #!/bin/bash
 
-options=(--type f)
+function _ffd() {
+  local options filter_dir result
+  options=()
 
-while getopts ":Hh" opt
-do
-  case "$opt" in
-    H)
-      options+=(-H)
-      ;;
-    *)
-      echo "Invalid option: $OPTARG" 1>&2
-      ;;
-  esac
-done
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -r|--root)
+        cd
+        shift
+        ;;
+      -H|--hidden)
+        options+=(-H)
+        shift
+        ;;
+      -d|--dir)
+        options+=(--type d)
+        filter_dir="true"
+        shift
+        ;;
+      -h|--help)
+        echo -e \
+"Usage: ffd [-h] [-d] [-r] [-H] ...
 
-fd "${options[@]}" | fzf --preview "head -50 {}" | xargs nvim
-exit 0
+Display basic fdfind result through fzf.
+
+Optional arguments:
+  -h, --help\t\tshow this help message and exit.
+  -d, --dir\t\tfind directories and print the selected value.
+  -r, --root\t\tsearch from home directory.
+  -H, --hidden\t\tinclude hidden files/directories."
+        exit 0
+        ;;
+    esac
+  done
+
+  result=$(fd "${options[@]}" | fzf --preview "head -200 {}" --exit-0)
+  [[ -z "${result}" ]] && exit 1
+
+  if [[ -z "${filter_dir}" ]]; then
+    nvim "${result}"
+  else
+    echo "${result}"
+  fi
+}
+
+_ffd "$@"
