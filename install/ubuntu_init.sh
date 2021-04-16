@@ -10,10 +10,11 @@ export OS_DISTRO="UBUNTU"
 mkdir -p ~/Programming/work
 mkdir -p ~/Programming/personal
 mkdir -p "$XDG_CACHE_HOME"/zsh
+cd $HOME
 
 # system packages
-sudo apt -y update
-sudo apt -y install \
+sudo apt-get -y update
+sudo apt-get -y install \
     build-essential \
     git \
     pkg-config \
@@ -28,7 +29,7 @@ sudo apt -y install \
 
 # dev packages
 curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-sudo apt -y install \
+sudo apt-get -y install \
     nodejs \
     neovim \
     python3 \
@@ -54,7 +55,7 @@ cd ..
 # terraform
 curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
 sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-sudo apt -y install \
+sudo apt-get -y install \
     terraform \
     terraform-ls
 
@@ -64,14 +65,14 @@ git clone https://github.com/kazhala/scripts.git ~/Programming/scripts
 git clone https://github.com/kazhala/AWSCloudFormationStacks ~/Programming/personal/cloudformation
 
 # dotbare
-git clone https://github.com/kazhala/dotbare.git
-source dotbare/dotbare.plugin.bash
+git clone https://github.com/kazhala/dotbare.git ~/.dotbare
+source ~/.dotbare/dotbare.plugin.bash
 dotbare finit -u https://github.com/kazhala/dotfiles.git
 
 # rust
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > rust_install.sh
-chmod +x rust_install.sh
-. rust_install.sh --no-modify-path -y
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > ~/rust_install.sh
+chmod +x ~/rust_install.sh
+. ~/rust_install.sh --no-modify-path -y
 source $XDG_DATA_HOME/cargo/env
 cargo install lsd
 cargo install git-delta
@@ -82,7 +83,7 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 nvim -c 'PlugInstall|q|q'
 
 # python
-sudo apt -y install \
+sudo apt-get -y install \
     python3-pip \
     python-setuptools
 pip3 install -r $HOME/.config/pip/requirements.txt
@@ -91,11 +92,11 @@ while read line; do
 done < $HOME/.config/pip/pipx-requirements.txt
 
 # docker
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-get-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-sudo apt -y install docker-ce
-sudo apt -y install docker-ce-cli
-sudo apt -y install containerd.io
+sudo apt-get -y install docker-ce
+sudo apt-get -y install docker-ce-cli
+sudo apt-get -y install containerd.io
 sudo groupadd docker
 sudo usermod -aG docker ubuntu
 
@@ -115,5 +116,5 @@ rm -rf tmux-3.2
 rm aws-sam-cli-linux-x86_64.zip
 rm -rf sam-installation
 rm ~/rust_install.sh
-rm -rf dotbare
-sudo apt -y autoremove
+rm -rf ~/.dotbare
+sudo apt-get -y autoremove
