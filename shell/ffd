@@ -44,7 +44,7 @@ Optional arguments:
     options+=(--type d)
   fi
 
-  result=$(fd "${options[@]}" | fzf --preview "${preview_cmd}" --exit-0)
+  result=$("${FD_COMMAND}" "${options[@]}" | fzf --preview "${preview_cmd}" --exit-0)
   [[ -z "${result}" ]] && exit 1
 
   if [[ -z "${filter_dir}" ]]; then
