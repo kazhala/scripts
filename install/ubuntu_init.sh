@@ -9,38 +9,39 @@ export RUSTUP_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/rustup"
 export OS_DISTRO="UBUNTU"
 mkdir -p ~/Programming/work
 mkdir -p ~/Programming/personal
-mkdir -P "$XDG_CACHE_HOME"/zsh
+mkdir -p "$XDG_CACHE_HOME"/zsh
 
 # system packages
 sudo apt -y update
-sudo apt -y install build-essential
-sudo apt -y install git
-sudo apt -y install pkg-config
-sudo apt -y install libssl-dev
-sudo apt -y install libevent-dev
-sudo apt -y install ncurses-dev 
-sudo apt -y install bison
-sudo apt -y install apt-transport-https 
-sudo apt -y install ca-certificates
-sudo apt -y install gnupg-agent
-sudo apt -y install software-properties-common
+sudo apt -y install \
+    build-essential \
+    git \
+    pkg-config \
+    libssl-dev \
+    libevent-dev \
+    ncurses-dev  \
+    bison \
+    apt-transport-https \
+    ca-certificates \
+    gnupg-agent \
+    software-properties-common
 
 # dev packages
-curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-sudo apt -y install nodejs
-sudo apt -y install npm
-sudo apt -y install neovim
-sudo apt -y install python3
-sudo apt -y install python3-venv
-sudo apt -y install zsh
-sudo apt -y install fd-find
-sudo apt -y install fzf
-sudo apt -y install vifm
-sudo apt -y install tree
-sudo apt -y install ripgrep
-sudo apt -y install shellcheck
-sudo apt -y install httpie
-sudo apt -y install pipx
+curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+sudo apt -y install \
+    nodejs \
+    neovim \
+    python3 \
+    python3-venv \
+    zsh \
+    fd-find \
+    fzf \
+    vifm \
+    tree \
+    ripgrep \
+    shellcheck \
+    httpie \
+    pipx
 
 # tmux
 wget https://github.com/tmux/tmux/releases/download/3.2/tmux-3.2.tar.gz
@@ -48,12 +49,14 @@ tar -zxf tmux-*.tar.gz
 cd tmux-*/
 ./configure
 make && sudo make install
+cd ..
 
 # terraform
 curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
 sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-sudo apt -y install terraform
-sudo apt -y install terraform-ls
+sudo apt -y install \
+    terraform \
+    terraform-ls
 
 # git packages
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -79,8 +82,9 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 nvim -c 'PlugInstall|q|q'
 
 # python
-sudo apt -y install python3-pip
-sudo apt -y install python-setuptools
+sudo apt -y install \
+    python3-pip \
+    python-setuptools
 pip3 install -r $HOME/.config/pip/requirements.txt
 while read line; do
     pipx install "${line}"
