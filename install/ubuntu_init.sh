@@ -58,6 +58,10 @@ sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.rel
 sudo apt-get -y install \
     terraform \
     terraform-ls
+curl -Lo ./terraform-docs.tar.gz https://github.com/terraform-docs/terraform-docs/releases/download/v0.12.1/terraform-docs-v0.12.1-$(uname)-amd64.tar.gz
+tar -xzf terraform-docs.tar.gz
+chmod +x terraform-docs
+mv terraform-docs ~/.local/bin
 
 # git packages
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -117,4 +121,6 @@ rm aws-sam-cli-linux-x86_64.zip
 rm -rf sam-installation
 rm ~/rust_install.sh
 rm -rf ~/.dotbare
+rm terraform-docs.tar.gz
+rm LICENSE
 sudo apt-get -y autoremove
