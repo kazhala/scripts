@@ -96,11 +96,12 @@ while read line; do
 done < $HOME/.config/pip/pipx-requirements.txt
 
 # docker
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-get-key add -
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-sudo apt-get -y install docker-ce
-sudo apt-get -y install docker-ce-cli
-sudo apt-get -y install containerd.io
+sudo apt-get -y install \
+    docker-ce \
+    docker-ce-cli \
+    containerd.io
 sudo groupadd docker
 sudo usermod -aG docker ubuntu
 
