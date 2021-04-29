@@ -1,13 +1,21 @@
 #!/bin/zsh
 
 completion_dir="${0:a:h}/../completions"
-completion_files=("_poetry")
+completion_files=("_poetry" "_bitwarden")
 
 for completion_file in "${completion_files[@]}"; do
   case "${completion_file}" in
     _poetry)
-      if command -v poetry &>/dev/null && [[ ! -f "${completion_dir}/${completion_file}" ]]; then
-        poetry completions zsh > "${completion_dir}/${completion_file}"
+      if command -v poetry &>/dev/null && [[ ! -f "${completion_dir}/${completion_file}${completion_file}" ]]; then
+        mkdir -p "${completion_dir}/${completion_file}"
+        poetry completions zsh > "${completion_dir}/${completion_file}/${completion_file}"
+      fi
+      ;;
+    _bitwarden)
+      if command -v bw &>/dev/null && [[ ! -f "${completion_dir}/${completion_file}/${completion_file}" ]]; then
+        mkdir -p "${completion_dir}/${completion_file}"
+        bw completion --shell zsh > "${completion_dir}/${completion_file}/${completion_file}"
+        echo '_bw "$@"' >> "${completion_dir}/${completion_file}/${completion_file}"
       fi
       ;;
   esac
@@ -15,4 +23,8 @@ done
 
 source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
-zinit creinstall "${completion_dir}"
+cd "${completion_dir}"
+for directory in $(find * -type d); do
+  echo "${directory}"
+  zinit creinstall "${completion_dir}/${directory}"
+done
