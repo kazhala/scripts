@@ -1,4 +1,6 @@
-#/bin/bash
+#!/bin/bash
+# shellcheck disable=SC2164
+# shellcheck disable=SC1090
 
 # setup
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -10,7 +12,7 @@ export OS_DISTRO="UBUNTU"
 mkdir -p ~/Programming/work
 mkdir -p ~/Programming/personal
 mkdir -p "$XDG_CACHE_HOME"/zsh
-cd $HOME
+cd "$HOME"
 
 # system packages
 sudo apt-get -y update
@@ -47,10 +49,11 @@ sudo apt-get -y install \
 # tmux
 wget https://github.com/tmux/tmux/releases/download/3.2/tmux-3.2.tar.gz
 tar -zxf tmux-*.tar.gz
+(
 cd tmux-*/
 ./configure
 make && sudo make install
-cd ..
+)
 
 # terraform
 curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
@@ -58,7 +61,7 @@ sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.rel
 sudo apt-get -y install \
     terraform \
     terraform-ls
-curl -Lo ./terraform-docs.tar.gz https://github.com/terraform-docs/terraform-docs/releases/download/v0.12.1/terraform-docs-v0.12.1-$(uname)-amd64.tar.gz
+curl -Lo "./terraform-docs.tar.gz https://github.com/terraform-docs/terraform-docs/releases/download/v0.12.1/terraform-docs-v0.12.1-$(uname)-amd64.tar.gz"
 tar -xzf terraform-docs.tar.gz
 chmod +x terraform-docs
 mv terraform-docs ~/.local/bin
@@ -77,7 +80,7 @@ dotbare finit -u https://github.com/kazhala/dotfiles.git
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > ~/rust_install.sh
 chmod +x ~/rust_install.sh
 . ~/rust_install.sh --no-modify-path -y
-source $XDG_DATA_HOME/cargo/env
+source "$XDG_DATA_HOME"/cargo/env
 cargo install lsd
 cargo install git-delta
 cargo install tealdeer
@@ -90,10 +93,10 @@ nvim -c 'PlugInstall|q|q'
 sudo apt-get -y install \
     python3-pip \
     python-setuptools
-pip3 install -r $HOME/.config/pip/requirements.txt
-while read line; do
+pip3 install -r "$HOME"/.config/pip/requirements.txt
+while read -r line; do
     pipx install "${line}"
-done < $HOME/.config/pip/pipx-requirements.txt
+done < "$HOME"/.config/pip/pipx-requirements.txt
 
 # docker
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
