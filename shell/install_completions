@@ -1,12 +1,12 @@
 #!/bin/zsh
 
 completion_dir="${0:a:h}/../completions"
-completion_files=("_poetry" "_bitwarden")
+completion_files=("_poetry" "_bitwarden" "_terraform_docs")
 
 for completion_file in "${completion_files[@]}"; do
   case "${completion_file}" in
     _poetry)
-      if command -v poetry &>/dev/null && [[ ! -f "${completion_dir}/${completion_file}${completion_file}" ]]; then
+      if command -v poetry &>/dev/null && [[ ! -f "${completion_dir}/${completion_file}/${completion_file}" ]]; then
         mkdir -p "${completion_dir}/${completion_file}"
         poetry completions zsh > "${completion_dir}/${completion_file}/${completion_file}"
       fi
@@ -16,6 +16,12 @@ for completion_file in "${completion_files[@]}"; do
         mkdir -p "${completion_dir}/${completion_file}"
         bw completion --shell zsh > "${completion_dir}/${completion_file}/${completion_file}"
         echo '_bw "$@"' >> "${completion_dir}/${completion_file}/${completion_file}"
+      fi
+      ;;
+    _terraform_docs)
+      if command -v terraform-docs &>/dev/null && [[ ! -f "${completion_dir}/${completion_file}/${completion_file}" ]]; then
+        mkdir -p "${completion_dir}/${completion_file}"
+        terraform-docs completion zsh > "${completion_dir}/${completion_file}/${completion_file}"
       fi
       ;;
   esac
