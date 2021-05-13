@@ -1,0 +1,50 @@
+#!/usr/bin/env python3
+import argparse
+import os
+from pathlib import Path
+
+import boto3
+
+parser = argparse.ArgumentParser(
+    prog="keypair", description="Manage AWS EC2 keypair."
+)
+subparser = parser.add_subparsers(help="Type of action to perform.", dest="action")
+
+parent_parser = argparse.ArgumentParser(add_help=False)
+parent_parser.add_argument(
+    "--name", action="store", nargs=1, help="Name of the keypair.", required=True
+)
+parent_parser.add_argument(
+    "--region",
+    action="store",
+    nargs=1,
+    help="Region to manage the keypair.",
+)
+parent_parser.add_argument(
+    "--profile",
+    action="store",
+    nargs=1,
+    help="Profile to use to manage the keypair.",
+)
+
+create_parser = subparser.add_parser("create", help="Create AWS EC2 keypair.", parents=[parent_parser])
+delete_parser = subparser.add_parser("delete", help="Delete AWS EC2 keypair.", parents=[parent_parser])
+args = parser.parse_args()
+
+session = boto3.Session(
+    profile_name=None if not args.profile else args.profile[0],
+    region_name=None if not args.region else args.region[0],
+)
+client = session.client("ec2")
+
+if args.action == "create":
+    keypair_data = client.create_key_pair(KeyName=args.name[0])
+    keypair_path = Path(f"{args.name[0]}.pem")
+    with open(keypair_path, "w") as file:
+        file.write(keypair_data["KeyMaterial"])
+    keypair_path.chmod(0o600)
+elif args.action == "delete":
+    client.delete_key_pair(KeyName=args.name[0])
+    keypair_path = Path(f"{args.name[0]}.pem")
+    if keypair_path.exists():
+        os.remove(keypair_path)
