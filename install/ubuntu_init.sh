@@ -17,50 +17,54 @@ cd "$HOME"
 # system packages
 sudo apt-get -y update
 sudo apt-get -y install \
-    build-essential \
-    git \
-    pkg-config \
-    libssl-dev \
-    libevent-dev \
-    ncurses-dev  \
-    bison \
-    apt-transport-https \
-    ca-certificates \
-    gnupg-agent \
-    software-properties-common
+	build-essential \
+	git \
+	pkg-config \
+	libssl-dev \
+	libevent-dev \
+	ncurses-dev \
+	bison \
+	apt-transport-https \
+	ca-certificates \
+	gnupg-agent \
+	software-properties-common
 
 # dev packages
 curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 sudo apt-get -y install \
-    nodejs \
-    neovim \
-    python3 \
-    python3-venv \
-    zsh \
-    fd-find \
-    fzf \
-    vifm \
-    tree \
-    ripgrep \
-    shellcheck \
-    httpie \
-    pipx
+	nodejs \
+	neovim \
+	python3 \
+	python3-venv \
+	zsh \
+	fd-find \
+	fzf \
+	vifm \
+	tree \
+	ripgrep \
+	shellcheck \
+	httpie \
+	pipx
 
 # tmux
 wget https://github.com/tmux/tmux/releases/download/3.2/tmux-3.2.tar.gz
 tar -zxf tmux-*.tar.gz
 (
-cd tmux-*/
-./configure
-make && sudo make install
+	cd tmux-*/
+	./configure
+	make && sudo make install
 )
+
+# shfmt
+wget https://github.com/mvdan/sh/releases/download/v3.2.4/shfmt_v3.2.4_darwin_amd64
+mv shfmt_v3.2.4_darwin_amd64 ~/.local/bin
 
 # terraform
 curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
 sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 sudo apt-get -y install \
-    terraform \
-    terraform-ls
+	terraform \
+	terraform-ls
 curl -Lo "./terraform-docs.tar.gz https://github.com/terraform-docs/terraform-docs/releases/download/v0.12.1/terraform-docs-v0.12.1-$(uname)-amd64.tar.gz"
 tar -xzf terraform-docs.tar.gz
 chmod +x terraform-docs
@@ -77,7 +81,7 @@ source ~/.dotbare/dotbare.plugin.bash
 dotbare finit -u https://github.com/kazhala/dotfiles.git
 
 # rust
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > ~/rust_install.sh
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs >~/rust_install.sh
 chmod +x ~/rust_install.sh
 . ~/rust_install.sh --no-modify-path -y
 source "$XDG_DATA_HOME"/cargo/env
@@ -91,20 +95,20 @@ nvim -c 'PlugInstall|q|q'
 
 # python
 sudo apt-get -y install \
-    python3-pip \
-    python-setuptools
+	python3-pip \
+	python-setuptools
 pip3 install -r "$HOME"/.config/pip/requirements.txt
 while read -r line; do
-    pipx install "${line}"
-done < "$HOME"/.config/pip/pipx-requirements.txt
+	pipx install "${line}"
+done <"$HOME"/.config/pip/pipx-requirements.txt
 
 # docker
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 sudo apt-get -y install \
-    docker-ce \
-    docker-ce-cli \
-    containerd.io
+	docker-ce \
+	docker-ce-cli \
+	containerd.io
 sudo groupadd docker
 sudo usermod -aG docker ubuntu
 
