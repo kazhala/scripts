@@ -5,9 +5,7 @@ from pathlib import Path
 
 import boto3
 
-parser = argparse.ArgumentParser(
-    prog="keypair", description="Manage AWS EC2 keypair."
-)
+parser = argparse.ArgumentParser(prog="keypair", description="Manage AWS EC2 keypair.")
 subparser = parser.add_subparsers(help="Type of action to perform.", dest="action")
 
 parent_parser = argparse.ArgumentParser(add_help=False)
@@ -27,8 +25,12 @@ parent_parser.add_argument(
     help="Profile to use to manage the keypair.",
 )
 
-create_parser = subparser.add_parser("create", help="Create AWS EC2 keypair.", parents=[parent_parser])
-delete_parser = subparser.add_parser("delete", help="Delete AWS EC2 keypair.", parents=[parent_parser])
+create_parser = subparser.add_parser(
+    "create", help="Create AWS EC2 keypair.", parents=[parent_parser]
+)
+delete_parser = subparser.add_parser(
+    "delete", help="Delete AWS EC2 keypair.", parents=[parent_parser]
+)
 args = parser.parse_args()
 
 session = boto3.Session(
