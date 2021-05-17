@@ -43,8 +43,7 @@ sudo apt-get -y install \
 	tree \
 	ripgrep \
 	shellcheck \
-	httpie \
-	pipx
+	httpie
 
 # tmux
 wget https://github.com/tmux/tmux/releases/download/3.2/tmux-3.2.tar.gz
@@ -98,6 +97,7 @@ sudo apt-get -y install \
 	python3-pip \
 	python-setuptools
 pip3 install -r "$HOME"/.config/pip/requirements.txt
+pip3 install pipx
 while read -r line; do
 	pipx install "${line}"
 done <"$HOME"/.config/pip/pipx-requirements.txt
