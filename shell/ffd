@@ -1,27 +1,27 @@
 #!/bin/bash
 
 function _ffd() {
-  local options filter_dir result preview_cmd
-  preview_cmd="head -200 {}"
+	local options filter_dir result preview_cmd
+	preview_cmd="head -200 {}"
 
-  while [[ $# -gt 0 ]]; do
-    case "$1" in
-      -r|--root)
-        cd
-        shift
-        ;;
-      -H|--hidden)
-        options+=(-H)
-        shift
-        ;;
-      -d|--dir)
-        filter_dir="true"
-        preview_cmd="tree -C {}"
-        shift
-        ;;
-      -h|--help)
-        echo -e \
-"Usage: ffd [-h] [-d] [-r] [-H] ...
+	while [[ $# -gt 0 ]]; do
+		case "$1" in
+		-r | --root)
+			cd || return
+			shift
+			;;
+		-H | --hidden)
+			options+=(-H)
+			shift
+			;;
+		-d | --dir)
+			filter_dir="true"
+			preview_cmd="tree -C {}"
+			shift
+			;;
+		-h | --help)
+			echo -e \
+				"Usage: ffd [-h] [-d] [-r] [-H] ...
 
 Display basic fdfind result through fzf.
 
@@ -30,28 +30,29 @@ Optional arguments:
   -d, --dir\t\tfind directories and print the selected value.
   -r, --root\t\tsearch from home directory.
   -H, --hidden\t\tinclude hidden files/directories."
-        exit 0
-        ;;
-      *)
-        echo "Invalid argument: ${1}" >&2
-        exit 1
-    esac
-  done
+			exit 0
+			;;
+		*)
+			echo "Invalid argument: ${1}" >&2
+			exit 1
+			;;
+		esac
+	done
 
-  if [[ -z "${filter_dir}" ]]; then
-    options+=(--type f)
-  else
-    options+=(--type d)
-  fi
+	if [[ -z "${filter_dir}" ]]; then
+		options+=(--type f)
+	else
+		options+=(--type d)
+	fi
 
-  result=$("${FD_COMMAND}" "${options[@]}" | fzf --preview "${preview_cmd}" --exit-0)
-  [[ -z "${result}" ]] && exit 1
+	result=$(fd "${options[@]}" | fzf --preview "${preview_cmd}" --exit-0)
+	[[ -z "${result}" ]] && exit 1
 
-  if [[ -z "${filter_dir}" ]]; then
-    nvim "${result}"
-  else
-    echo "${result}"
-  fi
+	if [[ -z "${filter_dir}" ]]; then
+		nvim "${result}"
+	else
+		echo "${result}"
+	fi
 }
 
 _ffd "$@"
