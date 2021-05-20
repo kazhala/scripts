@@ -54,6 +54,7 @@ git clone https://github.com/kazhala/AWSCloudFormationStacks ~/Programming/perso
 git clone https://github.com/kazhala/dotbare.git ~/.dotbare
 source ~/.dotbare/dotbare.plugin.bash
 dotbare finit -u https://github.com/kazhala/dotfiles.git
+rm -rf ~/.dotbare
 
 # -- HOMEBREW ---------------------------------------------------------------------
 
@@ -78,11 +79,17 @@ brew install shellcheck
 brew install httpie
 brew install fd
 brew install pipx
+brew install node
 
 # -- VIM --------------------------------------------------------------------------
 
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 nvim -c 'PlugInstall|q|q'
+
+# -- NODE -------------------------------------------------------------------------
+
+npm install pyright
+npm install nodemon
 
 # -- PYTHON -----------------------------------------------------------------------
 
