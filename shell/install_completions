@@ -5,6 +5,10 @@ completion_files=("_poetry" "_bitwarden" "_terraform_docs")
 
 [[ ! -d "${completion_dir}" ]] && mkdir -p "${completion_dir}"
 
+if [[ "$OS_DISTRO" == "UBUNTU" ]]; then
+  default_completion_dir="/home/linuxbrew/.linuxbrew/share/zsh/site-functions"
+fi
+
 function _activate_completion() {
   echo "" >> "$1"
   head -1 "$1" | cut -c 2- >> "$1"
@@ -36,3 +40,5 @@ done
 source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 zinit creinstall "${completion_dir}"
+
+[[ -d "${default_completion_dir}" ]] && zinit creinstall "${default_completion_dir}"
