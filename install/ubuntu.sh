@@ -80,6 +80,7 @@ brew install httpie
 brew install fd
 brew install pipx
 brew install node
+brew instlal packer
 
 # -- VIM --------------------------------------------------------------------------
 
