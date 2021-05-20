@@ -10,6 +10,7 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
 export RUSTUP_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/rustup"
 export OS_DISTRO="UBUNTU"
+export NONINTERACTIVE=1
 mkdir -p ~/Programming/work
 mkdir -p ~/Programming/personal
 mkdir -p "$XDG_CACHE_HOME"/zsh
