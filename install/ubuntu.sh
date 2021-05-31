@@ -90,8 +90,8 @@ nvim -c 'PlugInstall|q|q'
 
 # -- NODE -------------------------------------------------------------------------
 
-npm install pyright
-npm install nodemon
+npm install -g pyright
+npm install -g nodemon
 
 # -- PYTHON -----------------------------------------------------------------------
 
