@@ -110,7 +110,4 @@ rm -rf sam-installation
 
 # -- FINAL ------------------------------------------------------------------------
 
-sudo sed -i "s/^PermitRootLogin prohibit-password/PermitRootLogin yes/g" /etc/ssh/sshd_config
-sudo sed -i 's/^PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
-sudo service ssh restart
 sudo apt-get -y autoremove
