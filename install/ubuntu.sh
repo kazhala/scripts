@@ -15,23 +15,7 @@ mkdir -p ~/Programming/work
 mkdir -p ~/Programming/personal
 mkdir -p "$XDG_CACHE_HOME"/zsh
 cd "$HOME"
-
-# -- APT -----------------------------------------------------------------------
-
 sudo apt-get -y update
-sudo apt-get -y install \
-	build-essential \
-	git \
-	pkg-config \
-	libssl-dev \
-	libevent-dev \
-	ncurses-dev \
-	bison \
-	apt-transport-https \
-	ca-certificates \
-	gnupg-agent \
-	software-properties-common \
-	zsh
 
 # -- DOCKER -----------------------------------------------------------------------
 
@@ -61,6 +45,7 @@ rm -rf ~/.dotbare
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+brew install zsh
 brew install python3
 brew install tmux
 brew install shfmt
