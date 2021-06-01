@@ -15,7 +15,13 @@ mkdir -p ~/Programming/work
 mkdir -p ~/Programming/personal
 mkdir -p "$XDG_CACHE_HOME"/zsh
 cd "$HOME"
+
+# -- APT -----------------------------------------------------------------------
+
 sudo apt-get -y update
+sudo apt-get -y install \
+	git \
+	zsh
 
 # -- DOCKER -----------------------------------------------------------------------
 
@@ -32,11 +38,10 @@ sudo usermod -aG docker ubuntu
 
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 git clone https://github.com/kazhala/scripts.git ~/Programming/scripts
-git clone https://github.com/kazhala/AWSCloudFormationStacks ~/Programming/personal/cloudformation
+git clone https://github.com/kazhala/dotbare.git ~/.dotbare
 
 # -- DOTBARE ----------------------------------------------------------------------
 
-git clone https://github.com/kazhala/dotbare.git ~/.dotbare
 source ~/.dotbare/dotbare.plugin.bash
 dotbare finit -u https://github.com/kazhala/dotfiles.git
 rm -rf ~/.dotbare
@@ -45,7 +50,6 @@ rm -rf ~/.dotbare
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-brew install zsh
 brew install python3
 brew install tmux
 brew install shfmt
