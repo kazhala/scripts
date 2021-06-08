@@ -19,6 +19,7 @@ cd "$HOME"
 # -- APT -----------------------------------------------------------------------
 
 sudo apt-get -y update
+sudo apt-get -y install build-essential
 sudo apt-get -y install \
 	git \
 	zsh
@@ -51,6 +52,7 @@ rm -rf ~/.dotbare
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 brew install python3
+brew install cmake
 brew install tmux
 brew install shfmt
 brew install terraform
