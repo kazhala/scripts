@@ -21,6 +21,7 @@ cd "$HOME"
 sudo apt-get -y update
 sudo apt-get -y install build-essential
 sudo apt-get -y install \
+	python3-pip \
 	git \
 	zsh
 
