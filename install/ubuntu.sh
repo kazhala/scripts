@@ -59,6 +59,7 @@ brew install shfmt
 brew install terraform
 brew install terraform-ls
 brew install terraform-docs
+brew install tflint
 brew install rust
 brew install lsd
 brew install git-delta
