@@ -93,6 +93,9 @@ npm install -g nodemon
 pip3 install -r "$HOME"/.config/pip/requirements.txt
 while read -r line; do
 	pipx install "${line}"
+	if [[ "${line}" == "ranger-fm" ]]; then
+		pipx inject "${line}" pynvim
+	fi
 done <"$HOME"/.config/pip/pipx-requirements.txt
 
 # -- SAM --------------------------------------------------------------------------
