@@ -25,6 +25,8 @@ sudo apt-get -y install \
 	git \
 	zsh
 
+trap "sudo apt-get -y autoremove" EXIT
+
 # -- DOCKER -----------------------------------------------------------------------
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -41,75 +43,51 @@ sudo usermod -aG docker ubuntu
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 git clone https://github.com/kazhala/scripts.git ~/Programming/scripts
 git clone https://github.com/kazhala/dotbare.git ~/.dotbare
+git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
 # -- DOTBARE ----------------------------------------------------------------------
 
 source ~/.dotbare/dotbare.plugin.bash
 dotbare finit -u https://github.com/kazhala/dotfiles.git
-rm -rf ~/.dotbare
+trap "rm -rf ~/.dotbare" EXIT
 
 # -- HOMEBREW ---------------------------------------------------------------------
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-brew install python3
-brew install cmake
-brew install tmux
-brew install shfmt
-brew install terraform
-brew install terraform-ls
-brew install terraform-docs
-brew install tflint
-brew install rust
-brew install lsd
-brew install git-delta
-brew install tealdeer
-brew install neovim
-brew install fzf
-brew install vifm
-brew install tree
-brew install ripgrep
-brew install shellcheck
-brew install httpie
-brew install fd
-brew install pipx
-brew install node
-brew instlal packer
-brew install lua
-brew install luarocks
+while read -r line; do
+	brew install "${line}"
+done <"${XDG_CONFIG_HOME}/brew/ubuntu"
 
-# -- LUA --------------------------------------------------------------------------
+# -- rust --------------------------------------------------------------------------
 
-luarocks install --server=https://luarocks.org/dev luaformatter
-
-# -- VIM --------------------------------------------------------------------------
-
-sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-nvim -c 'PlugInstall|q|q'
+cargo install stylua
 
 # -- NODE -------------------------------------------------------------------------
 
-npm install -g pyright
-npm install -g nodemon
+npm install -g yarn
+
+yarn global add prettier
+yarn global add pyright
+yarn global add yaml-language-server
+yarn global add nodemon
+yarn global add bash-language-server
 
 # -- PYTHON -----------------------------------------------------------------------
 
 pip3 install -r "$HOME"/.config/pip/requirements.txt
 while read -r line; do
 	pipx install "${line}"
-	if [[ "${line}" == "ranger-fm" ]]; then
-		pipx inject "${line}" pynvim
-	fi
-done <"$HOME"/.config/pip/pipx-requirements.txt
+done <"$XDG_CONFIG_HOME/pip/pipx-requirements.txt"
+
+if pipx list | grep ranger-fm; then
+	pipx inject ranger-fm pynvim
+fi
 
 # -- SAM --------------------------------------------------------------------------
 
 wget https://github.com/aws/aws-sam-cli/releases/latest/download/aws-sam-cli-linux-x86_64.zip
 unzip aws-sam-cli-linux-x86_64.zip -d sam-installation
 sudo ./sam-installation/install
-rm aws-sam-cli-linux-x86_64.zip
-rm -rf sam-installation
-
-# -- FINAL ------------------------------------------------------------------------
-
-sudo apt-get -y autoremove
+trap "rm aws-sam-cli-linux-x86_64.zip" EXIT
+trap "rm -rf sam-installation" EXIT
