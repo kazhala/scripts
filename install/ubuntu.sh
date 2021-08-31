@@ -2,6 +2,15 @@
 # shellcheck disable=SC2164
 # shellcheck disable=SC1090
 
+function cleanup() {
+	sudo apt-get -y autoremove
+	rm -rf ~/.dotbare
+	rm aws-sam-cli-linux-x86_64.zip
+	rm -rf sam-installation
+}
+
+trap cleanup EXIT
+
 # -- INIT ----------------------------------------------------------------------
 
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -26,8 +35,6 @@ sudo apt-get -y install \
 	git \
 	zsh
 
-trap 'sudo apt-get -y autoremove' EXIT
-
 # -- DOCKER --------------------------------------------------------------------
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -51,7 +58,6 @@ git clone https://github.com/sumneko/lua-language-server "${NVIM_HOME}/lua-langu
 
 source ~/.dotbare/dotbare.plugin.bash
 dotbare finit -u https://github.com/kazhala/dotfiles.git
-trap 'rm -rf ~/.dotbare' EXIT
 
 # -- HOMEBREW ------------------------------------------------------------------
 
@@ -101,5 +107,3 @@ fi
 wget https://github.com/aws/aws-sam-cli/releases/latest/download/aws-sam-cli-linux-x86_64.zip
 unzip aws-sam-cli-linux-x86_64.zip -d sam-installation
 sudo ./sam-installation/install
-trap 'rm aws-sam-cli-linux-x86_64.zip' EXIT
-trap 'rm -rf sam-installation' EXIT
