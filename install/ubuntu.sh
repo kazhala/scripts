@@ -4,9 +4,9 @@
 
 function cleanup() {
 	sudo apt-get -y autoremove
-	rm -rf ~/.dotbare
-	rm aws-sam-cli-linux-x86_64.zip
-	rm -rf sam-installation
+	[[ -d "$HOME/.dotbare" ]] && rm -rf ~/.dotbare
+	[[ -f "$HOME/aws-sam-cli-linux-x86_64.zip" ]] && rm aws-sam-cli-linux-x86_64.zip
+	[[ -f "$HOME/sam-installation" ]] && rm -rf sam-installation
 }
 
 trap cleanup EXIT
