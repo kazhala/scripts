@@ -5,36 +5,36 @@ completion_files=("_poetry" "_bitwarden" "_terraform_docs")
 
 [[ ! -d "${completion_dir}" ]] && mkdir -p "${completion_dir}"
 
-if [[ "$OS_DISTRO" == "UBUNTU" ]]; then
-  default_completion_dir="/home/linuxbrew/.linuxbrew/share/zsh/site-functions"
+if [[ "$OS_DISTRO" =~ *UBUNTU ]]; then
+	default_completion_dir="/home/linuxbrew/.linuxbrew/share/zsh/site-functions"
 fi
 
 function _activate_completion() {
-  echo "" >> "$1"
-  head -1 "$1" | cut -c 2- >> "$1"
+	echo "" >>"$1"
+	head -1 "$1" | cut -c 2- >>"$1"
 }
 
 for completion_file in "${completion_files[@]}"; do
-  completion_file_path="${completion_dir}/${completion_file}"
-  case "${completion_file}" in
-    _poetry)
-      if command -v poetry &>/dev/null; then
-        poetry completions zsh > "${completion_file_path}"
-      fi
-      ;;
-    _bitwarden)
-      if command -v bw &>/dev/null; then
-        bw completion --shell zsh > "${completion_file_path}"
-        _activate_completion "${completion_file_path}"
-      fi
-      ;;
-    _terraform_docs)
-      if command -v terraform-docs &>/dev/null; then
-        terraform-docs completion zsh > "${completion_file_path}"
-        _activate_completion "${completion_file_path}"
-      fi
-      ;;
-  esac
+	completion_file_path="${completion_dir}/${completion_file}"
+	case "${completion_file}" in
+	_poetry)
+		if command -v poetry &>/dev/null; then
+			poetry completions zsh >"${completion_file_path}"
+		fi
+		;;
+	_bitwarden)
+		if command -v bw &>/dev/null; then
+			bw completion --shell zsh >"${completion_file_path}"
+			_activate_completion "${completion_file_path}"
+		fi
+		;;
+	_terraform_docs)
+		if command -v terraform-docs &>/dev/null; then
+			terraform-docs completion zsh >"${completion_file_path}"
+			_activate_completion "${completion_file_path}"
+		fi
+		;;
+	esac
 done
 
 source "$HOME/.zinit/bin/zinit.zsh"
