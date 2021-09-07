@@ -1,11 +1,11 @@
 #!/bin/zsh
 
 completion_dir="${0:a:h}/../completions"
-completion_files=("_poetry" "_bitwarden" "_terraform_docs")
+completion_files=("_poetry" "_bitwarden" "_terraform_docs", "_yarn")
 
 [[ ! -d "${completion_dir}" ]] && mkdir -p "${completion_dir}"
 
-if [[ "$OS_DISTRO" =~ *UBUNTU ]]; then
+if [[ "$OS_DISTRO" =~ .*UBUNTU ]]; then
 	default_completion_dir="/home/linuxbrew/.linuxbrew/share/zsh/site-functions"
 fi
 
@@ -31,6 +31,12 @@ for completion_file in "${completion_files[@]}"; do
 	_terraform_docs)
 		if command -v terraform-docs &>/dev/null; then
 			terraform-docs completion zsh >"${completion_file_path}"
+			_activate_completion "${completion_file_path}"
+		fi
+		;;
+	_yarn)
+		if command -v yarn &>/dev/null; then
+			curl https://raw.githubusercontent.com/zsh-users/zsh-completions/master/src/_yarn >"${completion_file_path}"
 			_activate_completion "${completion_file_path}"
 		fi
 		;;
