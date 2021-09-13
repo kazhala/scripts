@@ -115,5 +115,6 @@ sudo ./sam-installation/install
 if [[ -n "$WSL_DISTRO_NAME" ]]; then
 	wget https://github.com/equalsraf/win32yank/releases/download/v0.0.4/win32yank-x86.zip
 	unzip win32yank-x86.zip -d win32yank-dir
-	mv win32yank-dir/win32yank.exe "$HOME"/.local/bin/win32yank.exe
+	mv win32yank-dir/win32yank.exe "$HOME/.local/bin/win32yank.exe"
+	chmod 755 "$HOME/.local/bin/win32yank.exe"
 fi
