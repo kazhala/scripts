@@ -7,6 +7,8 @@ function cleanup() {
 	[[ -d "$HOME/.dotbare" ]] && rm -rf ~/.dotbare
 	[[ -f "$HOME/aws-sam-cli-linux-x86_64.zip" ]] && rm aws-sam-cli-linux-x86_64.zip
 	[[ -d "$HOME/sam-installation" ]] && rm -rf sam-installation
+	[[ -f "$HOME/win32yank-x86.zip" ]] && rm win32yank-x86.zip
+	[[ -d "$HOME/win32yank-dir" ]] && rm -rf win32yank-dir
 }
 
 trap cleanup EXIT
@@ -107,3 +109,11 @@ fi
 wget https://github.com/aws/aws-sam-cli/releases/latest/download/aws-sam-cli-linux-x86_64.zip
 unzip aws-sam-cli-linux-x86_64.zip -d sam-installation
 sudo ./sam-installation/install
+
+# -- WSL -----------------------------------------------------------------------
+
+if [[ -n "$WSL_DISTRO_NAME" ]]; then
+	wget https://github.com/equalsraf/win32yank/releases/download/v0.0.4/win32yank-x86.zip
+	unzip win32yank-x86.zip -d win32yank-dir
+	mv win32yank-dir/win32yank.exe "$HOME"/.local/bin/win32yank.exe
+fi
