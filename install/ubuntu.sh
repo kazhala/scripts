@@ -3,12 +3,13 @@
 # shellcheck disable=SC1090
 
 function cleanup() {
-	sudo apt-get -y autoremove
-	[[ -d "$HOME/.dotbare" ]] && rm -rf ~/.dotbare
-	[[ -f "$HOME/aws-sam-cli-linux-x86_64.zip" ]] && rm aws-sam-cli-linux-x86_64.zip
-	[[ -d "$HOME/sam-installation" ]] && rm -rf sam-installation
-	[[ -f "$HOME/win32yank-x86.zip" ]] && rm win32yank-x86.zip
-	[[ -d "$HOME/win32yank-dir" ]] && rm -rf win32yank-dir
+  sudo apt-get -y autoremove
+  [[ -d "$HOME/.dotbare" ]] && rm -rf ~/.dotbare
+  [[ -f "$HOME/aws-sam-cli-linux-x86_64.zip" ]] && rm aws-sam-cli-linux-x86_64.zip
+  [[ -d "$HOME/sam-installation" ]] && rm -rf sam-installation
+  [[ -f "$HOME/win32yank-x86.zip" ]] && rm win32yank-x86.zip
+  [[ -d "$HOME/win32yank-dir" ]] && rm -rf win32yank-dir
+  [[ -f "$HOME/session-manager-plugin.deb" ]] && rm -r session-manager-plugin.deb
 }
 
 trap cleanup EXIT
@@ -33,18 +34,18 @@ cd "$HOME"
 sudo apt-get -y update
 sudo apt-get -y install build-essential
 sudo apt-get -y install \
-	python3-pip \
-	git \
-	zsh
+  python3-pip \
+  git \
+  zsh
 
 # -- DOCKER --------------------------------------------------------------------
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 sudo apt-get -y install \
-	docker-ce \
-	docker-ce-cli \
-	containerd.io
+  docker-ce \
+  docker-ce-cli \
+  containerd.io
 sudo groupadd docker
 sudo usermod -aG docker ubuntu
 
@@ -66,7 +67,7 @@ dotbare finit -u https://github.com/kazhala/dotfiles.git
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 while read -r line; do
-	brew install "${line}"
+  brew install "${line}"
 done <"${XDG_CONFIG_HOME}/brew/ubuntu"
 
 # -- lua -----------------------------------------------------------------------
@@ -97,11 +98,11 @@ yarn global add bash-language-server
 
 pip3 install -r "$HOME"/.config/pip/requirements.txt
 while read -r line; do
-	pipx install "${line}"
+  pipx install "${line}"
 done <"$XDG_CONFIG_HOME/pip/pipx-requirements.txt"
 
 if pipx list | grep ranger-fm; then
-	pipx inject ranger-fm pynvim
+  pipx inject ranger-fm pynvim
 fi
 
 # -- SAM -----------------------------------------------------------------------
@@ -110,11 +111,16 @@ wget https://github.com/aws/aws-sam-cli/releases/latest/download/aws-sam-cli-lin
 unzip aws-sam-cli-linux-x86_64.zip -d sam-installation
 sudo ./sam-installation/install
 
+# -- SSM -----------------------------------------------------------------------
+
+curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "session-manager-plugin.deb"
+sudo dpkg -i session-manager-plugin.deb
+
 # -- WSL -----------------------------------------------------------------------
 
 if [[ -n "$WSL_DISTRO_NAME" ]]; then
-	wget https://github.com/equalsraf/win32yank/releases/download/v0.0.4/win32yank-x86.zip
-	unzip win32yank-x86.zip -d win32yank-dir
-	mv win32yank-dir/win32yank.exe "$HOME/.local/bin/win32yank.exe"
-	chmod 755 "$HOME/.local/bin/win32yank.exe"
+  wget https://github.com/equalsraf/win32yank/releases/download/v0.0.4/win32yank-x86.zip
+  unzip win32yank-x86.zip -d win32yank-dir
+  mv win32yank-dir/win32yank.exe "$HOME/.local/bin/win32yank.exe"
+  chmod 755 "$HOME/.local/bin/win32yank.exe"
 fi
