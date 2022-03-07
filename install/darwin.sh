@@ -1,6 +1,7 @@
 #!/bin/bash
 # shellcheck disable=SC2164
 # shellcheck disable=SC1090
+# shellcheck disable=SC2002
 
 function cleanup() {
 	sudo apt-get -y autoremove
@@ -25,15 +26,9 @@ cd "$HOME"
 
 # -- HOMEBREW ------------------------------------------------------------------
 
-while read -r line; do
-	brew install "${line}"
-done <"${XDG_CONFIG_HOME}/brew/darwin"
-
+cat "${XDG_CONFIG_HOME}/brew/darwin" | xargs brew install
 brew tap homebrew/cask-fonts
-
-while read -r line; do
-	brew install --cask "${line}"
-done <"${XDG_CONFIG_HOME}/brew/casks"
+cat "${XDG_CONFIG_HOME}/brew/casks" | xargs brew install --cask
 
 # -- GIT -----------------------------------------------------------------------
 
