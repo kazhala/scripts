@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 completion_dir="${0:a:h}/../completions"
-completion_files=("_poetry" "_bitwarden" "_terraform_docs", "_yarn", "_gh")
+completion_files=("_poetry" "_bitwarden" "_terraform_docs" "_yarn" "_gh")
 
 [[ ! -d "${completion_dir}" ]] && mkdir -p "${completion_dir}"
 
