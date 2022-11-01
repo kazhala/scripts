@@ -4,7 +4,6 @@
 # shellcheck disable=SC2002
 
 function cleanup() {
-	sudo apt-get -y autoremove
 	[[ -d "$HOME/.dotbare" ]] && rm -rf ~/.dotbare
 }
 
@@ -36,22 +35,11 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 git clone https://github.com/kazhala/scripts.git ~/Programming/scripts
 git clone https://github.com/kazhala/dotbare.git ~/.dotbare
 git clone https://github.com/wbthomason/packer.nvim "${NVIM_HOME}/site/pack/packer/start/packer.nvim"
-git clone https://github.com/sumneko/lua-language-server "${NVIM_HOME}/lua-language-server"
 
 # -- DOTBARE -------------------------------------------------------------------
 
 source ~/.dotbare/dotbare.plugin.bash
 dotbare finit -u https://github.com/kazhala/dotfiles.git
-
-# -- lua -----------------------------------------------------------------------
-
-cd "${NVIM_HOME}/lua-language-server"
-git submodule update --init --recursive
-cd 3rd/luamake
-./compile/install.sh
-cd ../..
-./3rd/luamake/luamake rebuild
-cd "$HOME"
 
 # -- rust ----------------------------------------------------------------------
 
