@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 completion_dir="${0:a:h}/../completions"
-completion_files=("_poetry" "_bitwarden" "_terraform_docs" "_yarn" "_gh")
+completion_files=("_poetry" "_bitwarden" "_terraform_docs" "_yarn" "_gh" "_kubectl")
 
 [[ ! -d "${completion_dir}" ]] && mkdir -p "${completion_dir}"
 
@@ -43,6 +43,12 @@ for completion_file in "${completion_files[@]}"; do
   _gh)
     if command -v gh &>/dev/null; then
       gh completion -s zsh >"${completion_file_path}"
+      _activate_completion "${completion_file_path}"
+    fi
+    ;;
+  _kubectl)
+    if command -v kubectl &>/dev/null; then
+      kubectl completion zsh >"${completion_file_path}"
       _activate_completion "${completion_file_path}"
     fi
     ;;
